@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECG Signal Generator", "ECG Signal Generator\ECG Signal Generator.csproj", "{E0AADDAD-DE3E-4F01-BC4E-B5E8D1F4CA21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRM", "HRM\HRM.csproj", "{A00C0BEB-9984-49EF-BA41-0C3B6772F42D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardia", "Cardia\Cardia.csproj", "{BC11D46B-F348-4642-90B8-576632E2583B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles", "{27628A66-D5B6-437E-A575-86A1960CC443}"
+	ProjectSection(SolutionItems) = preProject
+		HRM\Files\Windows.winmd = HRM\Files\Windows.winmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,5 +65,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1858DA6-F329-4E1D-98B0-5641013922F6}
 	EndGlobalSection
 EndGlobal
