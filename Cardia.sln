@@ -9,11 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRM", "HRM\HRM.csproj", "{A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardia", "Cardia\Cardia.csproj", "{BC11D46B-F348-4642-90B8-576632E2583B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles", "{27628A66-D5B6-437E-A575-86A1960CC443}"
-	ProjectSection(SolutionItems) = preProject
-		HRM\Files\Windows.winmd = HRM\Files\Windows.winmd
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
