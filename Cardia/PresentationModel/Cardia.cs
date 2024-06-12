@@ -142,6 +142,8 @@ namespace MGT.Cardia
         private int volume;
         private bool playBeat;
         private bool playAlarm;
+        private bool alwaysOnTop;
+        private bool darkMode;
 
         // Events
         public event GenericEventHandler<string, bool> StatusChanged;
@@ -157,14 +159,16 @@ namespace MGT.Cardia
         public event GenericEventHandler<int> AlarmDefuseTimeChanged;
         public event GenericEventHandler<bool> PlayBeatChanged;
         public event GenericEventHandler<bool> PlayAlarmChanged;
+        public event GenericEventHandler<bool> AlwaysOnTopChanged;
+        public event GenericEventHandler<bool> DarkModeChanged;
 
         // Properties
         public List<Color> Colors { get; private set; }
 
-        public Color Color 
+        public Color Color
         {
             get { return color; }
-            set 
+            set
             {
                 Color bck = color;
                 color = value;
@@ -315,6 +319,34 @@ namespace MGT.Cardia
             }
         }
 
+        public bool AlwaysOnTop
+        {
+            get { return alwaysOnTop; }
+            set
+            {
+                bool bck = alwaysOnTop;
+                alwaysOnTop = value;
+
+                if (bck != value)
+                    if (AlwaysOnTopChanged != null)
+                        AlwaysOnTopChanged(this, value);
+            }
+        }
+
+        public bool DarkMode
+        {
+            get { return darkMode; }
+            set
+            {
+                bool bck = darkMode;
+                darkMode = value;
+
+                if (bck != value)
+                    if (DarkModeChanged != null)
+                        DarkModeChanged(this, value);
+            }
+        }
+
         public bool PlayAlarm
         {
             get { return playAlarm; }
@@ -411,7 +443,11 @@ namespace MGT.Cardia
 
             logFormat = configuration.Log.Format;
 
-            switch(logFormat)
+            alwaysOnTop = configuration.AlwaysOnTop;
+
+            darkMode = configuration.DarkMode;
+
+            switch (logFormat)
             {
                 case LogFormat.CSV:
                     logger = bundle.CSVLogger;
@@ -479,6 +515,13 @@ namespace MGT.Cardia
                 NetworkModeChanged(this, networkMode);
             if (NetworkRelayChanged != null)
                 NetworkRelayChanged(this, networkRelay); // Useless? Should be already called by NetworkModeChanged
+
+            if (AlwaysOnTopChanged != null)
+                AlwaysOnTopChanged(this, alwaysOnTop);
+
+            if (DarkModeChanged != null)
+                DarkModeChanged(this, darkMode);
+
             networkRelay.Init();
         }
 
@@ -583,6 +626,10 @@ namespace MGT.Cardia
 
             configuration.Log.Format = logFormat;
 
+            configuration.AlwaysOnTop = alwaysOnTop;
+
+            configuration.DarkMode = darkMode;
+
             if (logger is IHRMNetLogger)
             {
                 configuration.Log.Address = ((IHRMNetLogger)logger).Address;
@@ -630,7 +677,7 @@ namespace MGT.Cardia
                         LogFormatChanged(this, value);
             }
         }
-        
+
         public bool LogEnabled
         {
             get { return logEnabled; }
@@ -893,7 +940,7 @@ namespace MGT.Cardia
             if (NetworkClientConnected != null)
                 NetworkClientConnected(this, clientId, nickname);
 
-            clientGenerator.OnSignalGenerated += delegate(object o, SignalGeneratedEventArgs e)
+            clientGenerator.OnSignalGenerated += delegate (object o, SignalGeneratedEventArgs e)
             {
                 if (ClientSignalGenerated != null)
                     ClientSignalGenerated(this, clientId, e);

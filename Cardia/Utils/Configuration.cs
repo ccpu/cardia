@@ -51,7 +51,7 @@ namespace MGT.Cardia
             public int Max = 240;
         }
 
-        public class DeviceConfiguration 
+        public class DeviceConfiguration
         {
             public enum DeviceType { HRMEmulator, ZephyrHxM, CMS50, BtHrp }
 
@@ -88,6 +88,8 @@ namespace MGT.Cardia
         public int Volume = 5;
         public bool PlayBeat = true;
         public bool PlayAlarm = true;
+        public bool AlwaysOnTop = false;
+        public bool DarkMode = false;
         public bool Alarm = false;
         public int AlarmLowThreshold = 40;
         public int AlarmHighThreshold = 180;

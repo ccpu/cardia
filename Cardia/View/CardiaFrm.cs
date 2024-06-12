@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using MGT.ECG_Signal_Generator;
-using MGT.HRM.Emulator;
-using MGT.HRM;
-using MGT.HRM.Zephyr_HxM;
 using System.Collections.Concurrent;
-using MGT.HRM.CMS50;
-using MGT.HRM.HRP;
+using System.Diagnostics;
+using System.Linq;
 
 namespace MGT.Cardia
 {
@@ -48,6 +45,8 @@ namespace MGT.Cardia
             cardia.PlayAlarmChanged += cardia_PlayAlarmChanged;
             cardia.WidthChanged += cardia_WidthChanged;
             cardia.LocationChanged += cardia_LocationChanged;
+            cardia.AlwaysOnTopChanged += cardia_AlwaysOnTopChanged;
+            cardia.DarkModeChanged += cardia_DarkModeChanged;
 
             cardia.Started += cardia_Started;
             cardia.Stopped += cardia_Stopped;
@@ -63,6 +62,15 @@ namespace MGT.Cardia
             InitializeLogPanel();
             InitializeNetworkPanel();
             InitializeColors();
+        }
+
+        private void CardiaFrm_Load(object sender, EventArgs e)
+        {
+            if (cardia.DarkMode)
+            {
+                SetDarkMode(this);
+                ChangeColor(cardia.Color);
+            }
         }
 
         private void InitializeDevices()
@@ -92,7 +100,7 @@ namespace MGT.Cardia
         {
             if (this.IsHandleCreated)
             {
-                this.Invoke(new MethodInvoker(delegate()
+                this.Invoke(new MethodInvoker(delegate ()
                 {
                     tslStatus.Text = status;
 
@@ -178,6 +186,17 @@ namespace MGT.Cardia
             miSoundPlayAlarm.Checked = arg;
         }
 
+        void cardia_AlwaysOnTopChanged(object sender, bool arg)
+        {
+            miAlwaysOnTop.Checked = arg;
+            this.TopMost = arg;
+        }
+
+        void cardia_DarkModeChanged(object sender, bool arg)
+        {
+            miDarkMode.Checked = arg;
+        }
+
         void cardia_WidthChanged(object sender, int width)
         {
             this.Width = width;
@@ -193,7 +212,7 @@ namespace MGT.Cardia
 
         void cardia_Started(object sender)
         {
-            this.Invoke(new MethodInvoker(delegate()
+            this.Invoke(new MethodInvoker(delegate ()
             {
                 btnStartFlag = false;
                 btnStartStop.Enabled = true;
@@ -206,7 +225,7 @@ namespace MGT.Cardia
             if (!this.IsHandleCreated)
                 return;
 
-            this.Invoke(new MethodInvoker(delegate()
+            this.Invoke(new MethodInvoker(delegate ()
             {
                 btnStartFlag = true;
                 btnStartStop.Text = "Start";
@@ -217,7 +236,7 @@ namespace MGT.Cardia
 
         void cardia_PacketProcessed(object sender, HRMStatus hrmStatus)
         {
-            this.Invoke(new MethodInvoker(delegate()
+            this.Invoke(new MethodInvoker(delegate ()
             {
                 this.SuspendLayout();
                 ecgDisplay.BPM = hrmStatus.HeartRate;
@@ -231,7 +250,7 @@ namespace MGT.Cardia
 
         void cardia_SignalGenerated(object sender, SignalGeneratedEventArgs e)
         {
-            this.Invoke(new MethodInvoker(delegate()
+            this.Invoke(new MethodInvoker(delegate ()
             {
                 ecgDisplay.Push(e.Time, e.Buffer);
             }));
@@ -239,7 +258,7 @@ namespace MGT.Cardia
 
         void cardia_AlarmTripped(object sender, bool arg)
         {
-            this.Invoke(new MethodInvoker(delegate()
+            this.Invoke(new MethodInvoker(delegate ()
             {
                 ecgDisplay.Alarm = arg;
             }));
@@ -264,6 +283,20 @@ namespace MGT.Cardia
         private void miSoundPlayAlarm_Click(object sender, EventArgs e)
         {
             cardia.PlayAlarm = !miSoundPlayAlarm.Checked;
+        }
+
+        private void miAlwaysOnTop_Click(object sender, EventArgs e)
+        {
+            cardia.AlwaysOnTop = !miAlwaysOnTop.Checked;
+
+        }
+
+        private void miDarkMode_Click(object sender, EventArgs e)
+        {
+            cardia.DarkMode = !miDarkMode.Checked;
+            string applicationPath = Application.ExecutablePath;
+            Process.Start(applicationPath);
+            Application.Exit();
         }
 
         private void cbColor_SelectedIndexChanged(object sender, EventArgs e)
@@ -310,6 +343,35 @@ namespace MGT.Cardia
                 this.Height = (displays.Count + 1) * ecgDisplay.Height;
             }
         }
+
+        private void ChangeColor(Color color)
+        {
+            cbColor.SelectedItem = color;
+            ecgDisplay.Color = color;
+
+            foreach (ECGDisplay clientDisplay in displays.Values)
+            {
+                clientDisplay.Color = color;
+            }
+        }
+
+        private void SetDarkMode(Control control)
+        {
+            SetTransparentBackground(control);
+        }
+
+        private void SetTransparentBackground(Control control)
+        {
+            // Set transparent background for the control
+            control.BackColor = Color.Black;
+            control.ForeColor = Color.WhiteSmoke;
+            // Recursively set transparent background for child controls
+            foreach (Control childControl in control.Controls)
+            {
+                SetTransparentBackground(childControl);
+            }
+        }
+
 
         private void Main_Move(object sender, EventArgs e)
         {
@@ -359,7 +421,7 @@ namespace MGT.Cardia
             }
             miDeviceConfigure.Enabled = true;
             btnStartStop.Enabled = true;
-            
+
             bundle.DeviceControlForm.ResetUI();
         }
 
@@ -558,7 +620,7 @@ namespace MGT.Cardia
         void cardia_ClientSignalGenerated(object sender, int clientId, SignalGeneratedEventArgs e)
         {
             this.Invoke((MethodInvoker)(
-                delegate()
+                delegate ()
                 {
                     try
                     {
@@ -572,7 +634,7 @@ namespace MGT.Cardia
         void cardia_NetworkMessageReceived(object sender, HeartRateMessage message)
         {
             this.Invoke((MethodInvoker)(
-                delegate()
+                delegate ()
                 {
                     displays[message.ClientId].BPM = message.BPM;
                     displays[message.ClientId].MinBPM = message.MinBPM;
@@ -587,7 +649,7 @@ namespace MGT.Cardia
                 return;
 
             this.Invoke((MethodInvoker)(
-                delegate()
+                delegate ()
                 {
                     try
                     {
@@ -608,7 +670,7 @@ namespace MGT.Cardia
             displays[clientId] = clientDisplay;
 
             this.Invoke((MethodInvoker)(
-                delegate()
+                delegate ()
                 {
                     this.SuspendLayout();
                     SetFormHeight();
@@ -642,7 +704,7 @@ namespace MGT.Cardia
         void cardia_NetworkDisconnected(object sender, bool error)
         {
             this.Invoke(new MethodInvoker(
-                delegate()
+                delegate ()
                 {
                     ecgDisplay.ShowNickname = false;
 
@@ -660,7 +722,7 @@ namespace MGT.Cardia
         void cardia_NetworkConnected(object sender, string nickname)
         {
             this.Invoke(new MethodInvoker(
-                delegate()
+                delegate ()
                 {
                     ecgDisplay.Nickname = nickname;
                     ecgDisplay.ShowNickname = true;
