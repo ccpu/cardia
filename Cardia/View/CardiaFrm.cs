@@ -6,6 +6,7 @@ using MGT.ECG_Signal_Generator;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
+using static MGT.Cardia.Configuration;
 
 namespace MGT.Cardia
 {
@@ -47,6 +48,7 @@ namespace MGT.Cardia
             cardia.LocationChanged += cardia_LocationChanged;
             cardia.AlwaysOnTopChanged += cardia_AlwaysOnTopChanged;
             cardia.DarkModeChanged += cardia_DarkModeChanged;
+            cardia.ChartTypeChanged += cardia_ChartTypeChanged;
 
             cardia.Started += cardia_Started;
             cardia.Stopped += cardia_Stopped;
@@ -197,6 +199,22 @@ namespace MGT.Cardia
             miDarkMode.Checked = arg;
         }
 
+        void cardia_ChartTypeChanged(object sender, DisplayChartType arg)
+        {
+            miDataChart.Checked = arg == DisplayChartType.DataChart ? true : false;
+            ecgDisplay.SwitchChart(arg);
+            if (arg == DisplayChartType.BeatChart)
+            {
+                pnlBeatChartSetting.Visible = true;
+                pnlDataChartSetting.Visible = false;
+            }
+            else
+            {
+                pnlBeatChartSetting.Visible = false;
+                pnlDataChartSetting.Visible = true;
+            }
+        }
+
         void cardia_WidthChanged(object sender, int width)
         {
             this.Width = width;
@@ -243,6 +261,7 @@ namespace MGT.Cardia
                 ecgDisplay.MinBPM = hrmStatus.MinHeartRate;
                 ecgDisplay.MaxBPM = hrmStatus.MaxHeartRate;
                 tslStatus.Text = String.Format("Reading - {0} packets received", hrmStatus.TotalPackets);
+
                 this.Text = String.Format("[{0} BPM] Cardia", hrmStatus.HeartRate.ToString());
                 this.ResumeLayout();
             }));
@@ -297,6 +316,11 @@ namespace MGT.Cardia
             string applicationPath = Application.ExecutablePath;
             Process.Start(applicationPath);
             Application.Exit();
+        }
+
+        private void miDataChart_Click(object sender, EventArgs e)
+        {
+            cardia.ChartType = cardia.ChartType == DisplayChartType.BeatChart ? DisplayChartType.DataChart : DisplayChartType.BeatChart;
         }
 
         private void cbColor_SelectedIndexChanged(object sender, EventArgs e)
@@ -423,6 +447,11 @@ namespace MGT.Cardia
             btnStartStop.Enabled = true;
 
             bundle.DeviceControlForm.ResetUI();
+        }
+
+        private void btnClearDataChart_Click(object sender, EventArgs e)
+        {
+            ecgDisplay.ClearDataChart();
         }
 
         private void btnStartStop_Click(object sender, EventArgs e)
@@ -736,6 +765,10 @@ namespace MGT.Cardia
             networkPanel.Focus();
         }
 
+
+
         #endregion Networking
+
+
     }
 }

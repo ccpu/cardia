@@ -36,11 +36,12 @@
             this.lbMinBPMDesc = new System.Windows.Forms.Label();
             this.lbBPM = new System.Windows.Forms.Label();
             this.pnlRight = new System.Windows.Forms.Panel();
-            this.lbAlarm = new System.Windows.Forms.Label();
             this.lbBPMDesc = new System.Windows.Forms.Label();
+            this.lbAlarm = new System.Windows.Forms.Label();
             this.lbNickname = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSeparator = new System.Windows.Forms.Panel();
+            this.chartECG = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
             this.pnlTop = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pbECGPlot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBeat)).BeginInit();
@@ -187,19 +188,6 @@
             this.pnlRight.MouseMove += new System.Windows.Forms.MouseEventHandler(this.route_MouseMove);
             this.pnlRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.route_MouseUp);
             // 
-            // lbAlarm
-            // 
-            this.lbAlarm.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbAlarm.ForeColor = System.Drawing.Color.Lime;
-            this.lbAlarm.Location = new System.Drawing.Point(3, 101);
-            this.lbAlarm.Margin = new System.Windows.Forms.Padding(3);
-            this.lbAlarm.Name = "lbAlarm";
-            this.lbAlarm.Size = new System.Drawing.Size(164, 24);
-            this.lbAlarm.TabIndex = 9;
-            this.lbAlarm.Text = "ALARM";
-            this.lbAlarm.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lbAlarm.Visible = false;
-            // 
             // lbBPMDesc
             // 
             this.lbBPMDesc.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -216,6 +204,19 @@
             this.lbBPMDesc.MouseLeave += new System.EventHandler(this.route_MouseLeave);
             this.lbBPMDesc.MouseMove += new System.Windows.Forms.MouseEventHandler(this.route_MouseMove);
             this.lbBPMDesc.MouseUp += new System.Windows.Forms.MouseEventHandler(this.route_MouseUp);
+            // 
+            // lbAlarm
+            // 
+            this.lbAlarm.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAlarm.ForeColor = System.Drawing.Color.Lime;
+            this.lbAlarm.Location = new System.Drawing.Point(3, 101);
+            this.lbAlarm.Margin = new System.Windows.Forms.Padding(3);
+            this.lbAlarm.Name = "lbAlarm";
+            this.lbAlarm.Size = new System.Drawing.Size(164, 24);
+            this.lbAlarm.TabIndex = 9;
+            this.lbAlarm.Text = "ALARM";
+            this.lbAlarm.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbAlarm.Visible = false;
             // 
             // lbNickname
             // 
@@ -248,6 +249,7 @@
             // pnlSeparator
             // 
             this.pnlSeparator.BackColor = System.Drawing.Color.Lime;
+            this.pnlSeparator.Controls.Add(this.chartECG);
             this.pnlSeparator.Controls.Add(this.pbECGPlot);
             this.pnlSeparator.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlSeparator.Location = new System.Drawing.Point(0, 40);
@@ -260,6 +262,15 @@
             this.pnlSeparator.MouseLeave += new System.EventHandler(this.route_MouseLeave);
             this.pnlSeparator.MouseMove += new System.Windows.Forms.MouseEventHandler(this.route_MouseMove);
             this.pnlSeparator.MouseUp += new System.Windows.Forms.MouseEventHandler(this.route_MouseUp);
+            // 
+            // chartECG
+            // 
+            this.chartECG.BackColor = System.Drawing.Color.Black;
+            this.chartECG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartECG.Location = new System.Drawing.Point(0, 2);
+            this.chartECG.Name = "chartECG";
+            this.chartECG.Size = new System.Drawing.Size(421, 104);
+            this.chartECG.TabIndex = 4;
             // 
             // pnlTop
             // 
@@ -319,5 +330,6 @@
         private System.Windows.Forms.Panel pnlSeparator;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.Label lbAlarm;
+        private LiveChartsCore.SkiaSharpView.WinForms.CartesianChart chartECG;
     }
 }

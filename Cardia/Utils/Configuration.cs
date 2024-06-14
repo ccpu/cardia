@@ -13,6 +13,13 @@ namespace MGT.Cardia
     [XmlRoot("Cardia")]
     public class Configuration
     {
+
+        public enum DisplayChartType
+        {
+            BeatChart,
+            DataChart
+        }
+
         public class LogConfiguration
         {
             public LogFormat Format = LogFormat.CSV;
@@ -90,6 +97,7 @@ namespace MGT.Cardia
         public bool PlayAlarm = true;
         public bool AlwaysOnTop = false;
         public bool DarkMode = false;
+        public DisplayChartType ChartType = DisplayChartType.BeatChart;
         public bool Alarm = false;
         public int AlarmLowThreshold = 40;
         public int AlarmHighThreshold = 180;

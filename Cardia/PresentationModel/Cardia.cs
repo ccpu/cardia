@@ -6,6 +6,7 @@ using MGT.Utilities.Network;
 using System.Collections.Concurrent;
 using System.Drawing;
 using MGT.Utilities.EventHandlers;
+using static MGT.Cardia.Configuration;
 
 namespace MGT.Cardia
 {
@@ -144,6 +145,7 @@ namespace MGT.Cardia
         private bool playAlarm;
         private bool alwaysOnTop;
         private bool darkMode;
+        private DisplayChartType chartType;
 
         // Events
         public event GenericEventHandler<string, bool> StatusChanged;
@@ -161,6 +163,8 @@ namespace MGT.Cardia
         public event GenericEventHandler<bool> PlayAlarmChanged;
         public event GenericEventHandler<bool> AlwaysOnTopChanged;
         public event GenericEventHandler<bool> DarkModeChanged;
+        public event GenericEventHandler<DisplayChartType> ChartTypeChanged;
+
 
         // Properties
         public List<Color> Colors { get; private set; }
@@ -347,6 +351,20 @@ namespace MGT.Cardia
             }
         }
 
+        public DisplayChartType ChartType
+        {
+            get { return chartType; }
+            set
+            {
+                DisplayChartType bck = chartType;
+                chartType = value;
+
+                if (bck != value)
+                    if (ChartTypeChanged != null)
+                        ChartTypeChanged(this, value);
+            }
+        }
+
         public bool PlayAlarm
         {
             get { return playAlarm; }
@@ -447,6 +465,8 @@ namespace MGT.Cardia
 
             darkMode = configuration.DarkMode;
 
+            chartType= configuration.ChartType;
+
             switch (logFormat)
             {
                 case LogFormat.CSV:
@@ -521,6 +541,9 @@ namespace MGT.Cardia
 
             if (DarkModeChanged != null)
                 DarkModeChanged(this, darkMode);
+
+            if (ChartTypeChanged != null)
+                ChartTypeChanged(this, chartType);
 
             networkRelay.Init();
         }
@@ -629,6 +652,8 @@ namespace MGT.Cardia
             configuration.AlwaysOnTop = alwaysOnTop;
 
             configuration.DarkMode = darkMode;
+
+            configuration.ChartType = chartType;
 
             if (logger is IHRMNetLogger)
             {

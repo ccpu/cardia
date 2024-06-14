@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MGT.ECG_Signal_Generator;
-using MGT.Utilities.Collections;
 using System.Drawing.Drawing2D;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore;
+using System.Collections.ObjectModel;
+using Axis = LiveChartsCore.SkiaSharpView.Axis;
+using SkiaSharp;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp.Views.Desktop;
+using static MGT.Cardia.Configuration;
 
 namespace MGT.Cardia
 {
@@ -40,6 +43,12 @@ namespace MGT.Cardia
         Color selectedColor = Color.Lime;
         Brush brush = Brushes.Lime;
         Pen pen;
+
+        private readonly ObservableCollection<int?> bpmObservableValues = new ObservableCollection<int?>();
+        private LineSeries<int?> dataChartSeries;
+        private Axis dataChartYAxis;
+        private Axis dataChartXAxis;
+        private DisplayChartType chartType = DisplayChartType.BeatChart;
 
         public int Interval
         {
@@ -154,7 +163,11 @@ namespace MGT.Cardia
             {
                 bpm = value;
                 if (bpm != null)
+                {
+                    bpmObservableValues.Add(bpm);
                     lbBPM.Text = bpm.ToString();
+                }
+
                 else
                     lbBPM.Text = "-";
             }
@@ -207,18 +220,26 @@ namespace MGT.Cardia
             }
         }
 
+
+
         public ECGDisplay()
         {
             InitializeComponent();
 
             InitializeECGChartImage();
+
+            InitializeECGDataChart();
+
             ApplyColor();
 
             ChartTime = chartTime;
+
         }
 
         private void ApplyColor()
         {
+            var selectedColorSKColor = selectedColor.ToSKColor();
+
             this.BackColor = selectedColor;
             pnlSeparator.BackColor = selectedColor;
             lbNickname.ForeColor = selectedColor;
@@ -229,6 +250,18 @@ namespace MGT.Cardia
             lbMinBPMDesc.ForeColor = selectedColor;
             lbMaxBPM.ForeColor = selectedColor;
             lbMaxBPMDesc.ForeColor = selectedColor;
+
+            dataChartSeries.Stroke = new SolidColorPaint
+            {
+                Color = selectedColorSKColor,
+            };
+
+            dataChartYAxis.LabelsPaint = new SolidColorPaint(selectedColorSKColor);
+            dataChartYAxis.SeparatorsPaint = new SolidColorPaint
+            {
+                Color = new SKColor(selectedColorSKColor.Red, selectedColorSKColor.Green, selectedColorSKColor.Blue, 60),
+                StrokeThickness = 1,
+            };
 
             brush = new SolidBrush(selectedColor);
             pen = new Pen(brush, 2);
@@ -245,6 +278,47 @@ namespace MGT.Cardia
             }
             midHeight = image.Height / 2;
             pbECGPlot.BackColor = backColor;
+        }
+
+        private void InitializeECGDataChart()
+        {
+            dataChartXAxis = new Axis
+            {
+                Padding = new LiveChartsCore.Drawing.Padding(0, 0, 0, 0),
+                //Labels = new string[] { },
+                Labeler = value => DateTime.Now.ToString("HH:mm:ss"),
+                TextSize = 0,
+            };
+
+            chartECG.XAxes = new List<Axis>
+            {
+                dataChartXAxis
+            };
+
+            dataChartYAxis = new Axis
+            {
+                TextSize = 9,
+                MinStep = 1,
+                Padding = new LiveChartsCore.Drawing.Padding(2, 0, 4, 0),
+            };
+
+            chartECG.YAxes = new List<Axis>
+            {
+              dataChartYAxis
+            };
+
+            dataChartSeries = new LineSeries<int?>
+            {
+                Values = bpmObservableValues,
+                Fill = null,
+                GeometrySize = 0,
+                //LineSmoothness = 0,
+            };
+
+            chartECG.Series = new ObservableCollection<ISeries>
+                {
+                    dataChartSeries
+                };
         }
 
         private void DrawHeart()
@@ -291,6 +365,8 @@ namespace MGT.Cardia
 
         private void UpdateECG(long time, Signal[] buffer)
         {
+            if (chartType != DisplayChartType.BeatChart) return;
+
             this.SuspendLayout();
 
             if (buffer[0].Beat)
@@ -359,8 +435,30 @@ namespace MGT.Cardia
             this.ResumeLayout();
         }
 
+        public void SwitchChart(DisplayChartType _chartType)
+        {
+            chartType = _chartType;
+            if (_chartType == DisplayChartType.BeatChart)
+            {
+                pbECGPlot.Visible = true;
+                chartECG.Visible = false;
+            }
+            else
+            {
+                pbECGPlot.Visible = false;
+                chartECG.Visible = true;
+            }
+        }
+
+        public void ClearDataChart()
+        {
+            bpmObservableValues.Clear();
+        }
+
         private void pbECGPlot_Resize(object sender, EventArgs e)
         {
+            if (chartType != DisplayChartType.BeatChart) return;
+
             InitializeECGChartImage();
 
             step = (image.Width) * interval / (float)chartTime;
@@ -378,13 +476,16 @@ namespace MGT.Cardia
             MaxBPM = null;
             Beat = false;
 
-            using (Graphics g = Graphics.FromImage(image))
+            if (chartType == DisplayChartType.BeatChart)
             {
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.Clear(backColor);
-            }
+                using (Graphics g = Graphics.FromImage(image))
+                {
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.Clear(backColor);
+                }
 
-            pbECGPlot.Image = image;
+                pbECGPlot.Image = image;
+            }
         }
 
         private void route_MouseDown(object sender, MouseEventArgs e)
