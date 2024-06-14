@@ -365,14 +365,14 @@ namespace MGT.Cardia
 
         private void UpdateECG(long time, Signal[] buffer)
         {
-            if (chartType != DisplayChartType.BeatChart) return;
-
-            this.SuspendLayout();
-
             if (buffer[0].Beat)
                 pbHeartBeat.Visible = true;
             else
                 pbHeartBeat.Visible = false;
+
+            if (chartType != DisplayChartType.BeatChart) return;
+
+            this.SuspendLayout();
 
             using (Graphics g = Graphics.FromImage(image))
             {
