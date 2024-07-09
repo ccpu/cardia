@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
 using static MGT.Cardia.Configuration;
+using System.Threading.Tasks;
 
 namespace MGT.Cardia
 {
@@ -64,6 +65,8 @@ namespace MGT.Cardia
             InitializeLogPanel();
             InitializeNetworkPanel();
             InitializeColors();
+
+            ecgDisplay.Restart += ecgDisplay_Restart;
         }
 
         private void CardiaFrm_Load(object sender, EventArgs e)
@@ -477,6 +480,13 @@ namespace MGT.Cardia
             ResetUI();
         }
 
+        private async void Restart()
+        {
+            Stop();
+            await Task.Delay(500);
+            Start();
+        }
+
         private void miDeviceConfigure_Click(object sender, EventArgs e)
         {
             bundle.DeviceControlForm.Show();
@@ -728,6 +738,11 @@ namespace MGT.Cardia
                     this.ResumeLayout();
                 }
             ));
+        }
+
+        private void ecgDisplay_Restart(object sender, EventArgs e)
+        {
+            Restart();
         }
 
         void cardia_NetworkDisconnected(object sender, bool error)

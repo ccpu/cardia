@@ -50,6 +50,8 @@ namespace MGT.Cardia
         private Axis dataChartXAxis;
         private DisplayChartType chartType = DisplayChartType.BeatChart;
 
+        public event EventHandler Restart;
+
         public int Interval
         {
             get
@@ -250,6 +252,7 @@ namespace MGT.Cardia
             lbMinBPMDesc.ForeColor = selectedColor;
             lbMaxBPM.ForeColor = selectedColor;
             lbMaxBPMDesc.ForeColor = selectedColor;
+            btnRestart.ForeColor = selectedColor;
 
             dataChartSeries.Stroke = new SolidColorPaint
             {
@@ -511,6 +514,12 @@ namespace MGT.Cardia
         private void route_MouseLeave(object sender, EventArgs e)
         {
             OnMouseLeave(e);
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            ClearDataChart();
+            Restart?.Invoke(this, EventArgs.Empty);
         }
     }
 }

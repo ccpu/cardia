@@ -36,6 +36,7 @@
             this.lbMinBPMDesc = new System.Windows.Forms.Label();
             this.lbBPM = new System.Windows.Forms.Label();
             this.pnlRight = new System.Windows.Forms.Panel();
+            this.btnRestart = new System.Windows.Forms.Button();
             this.lbBPMDesc = new System.Windows.Forms.Label();
             this.lbAlarm = new System.Windows.Forms.Label();
             this.lbNickname = new System.Windows.Forms.Label();
@@ -172,6 +173,7 @@
             // pnlRight
             // 
             this.pnlRight.BackColor = System.Drawing.Color.Black;
+            this.pnlRight.Controls.Add(this.btnRestart);
             this.pnlRight.Controls.Add(this.lbBPMDesc);
             this.pnlRight.Controls.Add(this.lbBPM);
             this.pnlRight.Controls.Add(this.lbAlarm);
@@ -187,6 +189,20 @@
             this.pnlRight.MouseLeave += new System.EventHandler(this.route_MouseLeave);
             this.pnlRight.MouseMove += new System.Windows.Forms.MouseEventHandler(this.route_MouseMove);
             this.pnlRight.MouseUp += new System.Windows.Forms.MouseEventHandler(this.route_MouseUp);
+            // 
+            // btnRestart
+            // 
+            this.btnRestart.FlatAppearance.BorderSize = 0;
+            this.btnRestart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRestart.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRestart.ForeColor = System.Drawing.Color.Lime;
+            this.btnRestart.Location = new System.Drawing.Point(121, 101);
+            this.btnRestart.Name = "btnRestart";
+            this.btnRestart.Size = new System.Drawing.Size(51, 47);
+            this.btnRestart.TabIndex = 10;
+            this.btnRestart.Text = "⟲";
+            this.btnRestart.UseVisualStyleBackColor = false;
+            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
             // 
             // lbBPMDesc
             // 
@@ -331,5 +347,6 @@
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.Label lbAlarm;
         private LiveChartsCore.SkiaSharpView.WinForms.CartesianChart chartECG;
+        private System.Windows.Forms.Button btnRestart;
     }
 }
