@@ -600,6 +600,25 @@ namespace MGT.Cardia
             }
         }
 
+        private void ecgDisplay_Restart(object sender, EventArgs e)
+        {
+            Restart();
+        }
+
+        private void ecgDisplay_DoubleClick(object sender, EventArgs e)
+        {
+
+            if(pnlControl.Visible)
+            {
+                shrinkToolStripMenuItem_Click(sender,e);
+            }
+            else
+            {
+                unshrinkToolStripMenuItem_Click(sender, e);
+            }
+
+        }
+
         #endregion
 
         #endregion
@@ -734,16 +753,14 @@ namespace MGT.Cardia
                     clientDisplay.MouseUp += HRMUISmall_MouseUp;
                     clientDisplay.MouseEnter += ecgDisplay_MouseEnter;
                     clientDisplay.MouseLeave += ecgDisplay_MouseLeave;
+                    clientDisplay.DoubleClick += ecgDisplay_DoubleClick;
 
                     this.ResumeLayout();
                 }
             ));
         }
 
-        private void ecgDisplay_Restart(object sender, EventArgs e)
-        {
-            Restart();
-        }
+
 
         void cardia_NetworkDisconnected(object sender, bool error)
         {

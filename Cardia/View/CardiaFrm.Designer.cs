@@ -402,6 +402,7 @@
             this.ecgDisplay.TabIndex = 38;
             this.ecgDisplay.MouseEnter += new System.EventHandler(this.ecgDisplay_MouseEnter);
             this.ecgDisplay.MouseLeave += new System.EventHandler(this.ecgDisplay_MouseLeave);
+            this.ecgDisplay.DoubleClick += new System.EventHandler(this.ecgDisplay_DoubleClick);
             // 
             // CardiaFrm
             // 

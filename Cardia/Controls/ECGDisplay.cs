@@ -521,5 +521,10 @@ namespace MGT.Cardia
             ClearDataChart();
             Restart?.Invoke(this, EventArgs.Empty);
         }
+
+        private void route_DoubleClick(object sender, EventArgs e)
+        {
+            OnDoubleClick(e);
+        }
     }
 }

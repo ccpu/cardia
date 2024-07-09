@@ -64,6 +64,7 @@
             this.lbMaxBPM.TabIndex = 13;
             this.lbMaxBPM.Text = "-";
             this.lbMaxBPM.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbMaxBPM.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbMaxBPM.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbMaxBPM.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbMaxBPM.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -82,6 +83,7 @@
             this.lbMinBPM.TabIndex = 12;
             this.lbMinBPM.Text = "-";
             this.lbMinBPM.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbMinBPM.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbMinBPM.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbMinBPM.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbMinBPM.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -99,6 +101,7 @@
             this.lbMaxBPMDesc.Size = new System.Drawing.Size(56, 24);
             this.lbMaxBPMDesc.TabIndex = 11;
             this.lbMaxBPMDesc.Text = "Max:";
+            this.lbMaxBPMDesc.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbMaxBPMDesc.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbMaxBPMDesc.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbMaxBPMDesc.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -115,6 +118,7 @@
             this.pbECGPlot.Size = new System.Drawing.Size(421, 104);
             this.pbECGPlot.TabIndex = 3;
             this.pbECGPlot.TabStop = false;
+            this.pbECGPlot.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.pbECGPlot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.pbECGPlot.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.pbECGPlot.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -130,6 +134,7 @@
             this.pbHeartBeat.TabIndex = 33;
             this.pbHeartBeat.TabStop = false;
             this.pbHeartBeat.Visible = false;
+            this.pbHeartBeat.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.pbHeartBeat.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.pbHeartBeat.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.pbHeartBeat.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -147,6 +152,7 @@
             this.lbMinBPMDesc.Size = new System.Drawing.Size(56, 24);
             this.lbMinBPMDesc.TabIndex = 10;
             this.lbMinBPMDesc.Text = "Min:";
+            this.lbMinBPMDesc.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbMinBPMDesc.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbMinBPMDesc.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbMinBPMDesc.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -164,6 +170,7 @@
             this.lbBPM.TabIndex = 4;
             this.lbBPM.Text = "-";
             this.lbBPM.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbBPM.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbBPM.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbBPM.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbBPM.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -184,6 +191,7 @@
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Size = new System.Drawing.Size(165, 146);
             this.pnlRight.TabIndex = 4;
+            this.pnlRight.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.pnlRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.pnlRight.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.pnlRight.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -215,6 +223,7 @@
             this.lbBPMDesc.TabIndex = 8;
             this.lbBPMDesc.Text = "BPM";
             this.lbBPMDesc.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbBPMDesc.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbBPMDesc.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbBPMDesc.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbBPMDesc.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -245,6 +254,7 @@
             this.lbNickname.Size = new System.Drawing.Size(194, 28);
             this.lbNickname.TabIndex = 34;
             this.lbNickname.Text = "NICKNAME";
+            this.lbNickname.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.lbNickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.lbNickname.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.lbNickname.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -273,6 +283,7 @@
             this.pnlSeparator.Padding = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.pnlSeparator.Size = new System.Drawing.Size(423, 106);
             this.pnlSeparator.TabIndex = 36;
+            this.pnlSeparator.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.pnlSeparator.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.pnlSeparator.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.pnlSeparator.MouseLeave += new System.EventHandler(this.route_MouseLeave);
@@ -302,6 +313,7 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(423, 40);
             this.pnlTop.TabIndex = 35;
+            this.pnlTop.DoubleClick += new System.EventHandler(this.route_DoubleClick);
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.route_MouseDown);
             this.pnlTop.MouseEnter += new System.EventHandler(this.route_MouseEnter);
             this.pnlTop.MouseLeave += new System.EventHandler(this.route_MouseLeave);
