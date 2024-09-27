@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Reflection;
 
 namespace MGT.HRM.HRP
 {
@@ -34,7 +35,18 @@ namespace MGT.HRM.HRP
 
         protected override void BtHrpStart()
         {
-            streamWriter = new StreamWriter(fileName);
+            DateTime now = DateTime.Now;
+
+            string dir = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"Cardia");
+
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
+            var _fileName = !String.IsNullOrEmpty( fileName)? fileName : Path.Combine(dir, "Cardia_Log_" + now.ToString("yyyy-MM-dd_HH-mm") + ".csv");
+
+            streamWriter = new StreamWriter(_fileName);
             StringBuilder sb = new StringBuilder();
             sb.Append("Timestamp");
             sb.Append(delimiter);

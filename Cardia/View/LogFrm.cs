@@ -25,6 +25,7 @@ namespace MGT.Cardia
             InitializeComponent();
 
             cardia_LoggerChanged(this, cardia.LogFormat);
+            cardia_LogEnabledChanged(this, cardia.LogEnabled);
 
             cardia.LoggerChanged += Cardia_LoggerChanged;
             cardia.LogEnabledChanged += cardia_LogEnabledChanged;

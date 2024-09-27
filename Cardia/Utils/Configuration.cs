@@ -25,6 +25,7 @@ namespace MGT.Cardia
             public LogFormat Format = LogFormat.CSV;
             public string Address = "";
             public int Port = 60900;
+            public bool LogEnabled = false;
         }
 
         public class NetworkConfiguration

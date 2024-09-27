@@ -461,6 +461,8 @@ namespace MGT.Cardia
 
             logFormat = configuration.Log.Format;
 
+            logEnabled= configuration.Log.LogEnabled;
+
             alwaysOnTop = configuration.AlwaysOnTop;
 
             darkMode = configuration.DarkMode;
@@ -649,6 +651,8 @@ namespace MGT.Cardia
 
             configuration.Log.Format = logFormat;
 
+            configuration.Log.LogEnabled = logEnabled;
+
             configuration.AlwaysOnTop = alwaysOnTop;
 
             configuration.DarkMode = darkMode;
@@ -766,6 +770,7 @@ namespace MGT.Cardia
         private void InitializeLoggers()
         {
             logFormat = configuration.Log.Format;
+            logEnabled= configuration.Log.LogEnabled;
 
             SetLogger();
         }
